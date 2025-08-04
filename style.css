@@ -14,6 +14,18 @@ body {
     background-color: #151515;
 }
 
+header {
+    width: 100%;
+    max-height: 2rem;
+    top: 0;
+    position: absolute;
+}
+
+header img {
+    height: 2rem;
+    margin: 0.5rem 0 0 1rem;
+}
+
 section {
     display: flex;
     flex-direction: column;
@@ -62,3 +74,39 @@ section {
     color: #808080;
 }
 
+.add_profile {
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+    font-size: 4rem;
+    text-align: center;
+    color: #151515;
+    background-color: #808080;
+    border: none;
+    cursor: pointer;
+}
+
+.add_profile:hover {
+    color: #808080;
+    background-color: #151515;
+}
+
+.manage_profile {
+    justify-self: center;
+    align-self: center;
+    width: 33%;
+    height: 2rem;
+    margin-top: .5rem;
+    padding: .4rem;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #808080;
+    border: 1px solid #808080;
+    background-color: transparent;
+}
+
+.manage_profile:hover {
+    color: #151515;
+    background-color: #808080;
+}
