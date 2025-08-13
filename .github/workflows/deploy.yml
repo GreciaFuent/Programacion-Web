@@ -9,9 +9,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    # Todas las ejecuciones se hacen dentro del subproyecto
     defaults:
       run:
-        working-directory: tarea-03-netflix
+        working-directory: tarea-03-netflix   # ← con guion
 
     steps:
       - name: Checkout
@@ -22,7 +23,8 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: tarea-03-netflix/package-lock.json
+          # lockfile dentro del subdirectorio
+          cache-dependency-path: tarea-03-netflix/package-lock.json  # ← con guion
 
       - name: Install deps
         run: npm ci
@@ -30,31 +32,16 @@ jobs:
       - name: Build (Vite)
         run: npm run build
 
-      # Asegura AWS CLI v2
-      - name: Setup AWS CLI
-        uses: aws-actions/setup-aws-cli@v4
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}   # debería ser us-east-2
-
-      # Diagnóstico (déjalo mientras pruebas)
-      - name: Verify build and bucket/region
-        run: |
-          aws --version
-          ls -la dist || (echo "NO EXISTE dist"; exit 1)
-          echo "Bucket: ${{ secrets.S3_BUCKET_NAME }}"
-          aws s3api get-bucket-location --bucket ${{ secrets.S3_BUCKET_NAME }} || true
-          aws sts get-caller-identity
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3
-        run: |
-          aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }} \
-            --delete --no-progress --region ${{ secrets.AWS_REGION }}
+        # dist queda dentro de tarea-03-netflix/dist
+        run: aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
 
       - name: Invalidate CloudFront
-        run: aws cloudfront create-invalidation \
-          --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
