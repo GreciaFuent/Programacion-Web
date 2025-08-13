@@ -24,7 +24,7 @@ jobs:
           node-version: 20
           cache: npm
           # ¡clave! ruta al lockfile dentro del subdirectorio
-          cache-dependency-path: tarea03-netflix/package-lock.json
+          cache-dependency-path: tarea-03-netflix/package-lock.json
 
       - name: Install deps
         run: npm ci
