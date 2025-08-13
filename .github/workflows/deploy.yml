@@ -2,21 +2,29 @@ name: Deploy to S3 + CloudFront
 
 on:
   push:
-    branches: [ "tarea-03" ]
+    branches: ["tarea-03"]
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    # Todas las ejecuciones se hacen dentro del subproyecto
+    defaults:
+      run:
+        working-directory: tarea-03-netflix
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node 20
+      - name: Use Node 20 (with npm cache)
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+          # ¡clave! ruta al lockfile dentro del subdirectorio
+          cache-dependency-path: tarea03-netflix/package-lock.json
 
       - name: Install deps
         run: npm ci
@@ -32,8 +40,8 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3
+        # nota: dist queda dentro de tarea03-netflix/dist
         run: aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
 
       - name: Invalidate CloudFront
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
-
