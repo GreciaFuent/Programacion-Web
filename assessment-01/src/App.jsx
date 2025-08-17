@@ -1,23 +1,51 @@
-import { useState } from 'react'
-import Card from './components/card'
+import { useEffect, useState } from "react";
+import Card from "./components/card";
+import "./App.css";
+import { getPokemonBatch } from "./api/pokeapi"; 
 
-import './App.css'
+export default function App() {
+  const [pokemons, setPokemons] = useState([]);
 
-function App() {
-  const [count, setCount] = useState(0)
+  useEffect(() => {
+    (async () => {
+      try {
+        const items = await getPokemonBatch();
+        console.log("BATCH OK:", items);
+        setPokemons(items);
+      } catch (e) {
+        console.error("BATCH ERROR:", e);
+        setErr(String(e?.message || e));
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
   return (
     <>
-      <div className='pokedex-div'>
-        <h1 className='title'>Pokédex</h1>
-        <p className='description'>Bienvenid@ a la Pokédex: una galería interactiva donde puedes explorar tus Pokémon favoritos. Cada tarjeta muestra su nombre, la imagen oficial y características como tipos y peso, obtenidas en tiempo real desde la PokeAPI.</p>
+      <div className="pokedex-div">
+        <h1 className="title">Pokédex</h1>
         <div className="div-cards">
-           <Card />
+          {pokemons.map((p) => (
+            <Card
+              key={p.id}
+              img={p.image}          
+              name={p.name}
+              type={p.types.join(", ")}                     
+              height={`${p.height_m} m`}         
+              weight={`${p.weight_kg} kg`}
+              hp={p.stats.hp}
+              attack={p.stats.attack}
+              defence={p.stats.defense}               
+            />
+          ))}
         </div>
-        <footer><h6>parcial 1 Grecia</h6></footer>
+
+        <footer>
+          <h6>Parcial 1 Grecia</h6>
+        </footer>
       </div>
     </>
-  )
+  );
 }
 
-export default App
