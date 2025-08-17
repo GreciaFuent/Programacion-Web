@@ -1,6 +1,5 @@
 # Pokédex — Assessment 1
 
-
 - **Doppler – Config Syncs (repo integration)**
   
   ![Doppler Config Syncs](img/config-sync.png)
