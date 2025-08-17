@@ -2,12 +2,17 @@ name: Deploy to S3 + CloudFront
 
 on:
   push:
-    branches: - assessment-01 
+    branches:
+      - assessment-01
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: assessment-01 # subdirectorio del proyecto
 
     steps:
       - name: Checkout
@@ -18,13 +23,14 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: package-lock.json
+          # ¡clave! ruta al lockfile dentro del subdirectorio
+          cache-dependency-path: assessment-01/package-lock.json
 
       - name: Install deps
         run: npm ci
 
       - name: Build (Vite)
-        run: npm run build    # genera /dist
+        run: npm run build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -34,9 +40,8 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3
+        # dist es la carpeta de salida de Vite
         run: aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
 
       - name: Invalidate CloudFront
-        run: aws cloudfront create-invalidation \
-             --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-             --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
