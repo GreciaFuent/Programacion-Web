@@ -1,0 +1,31 @@
+.card {
+    height: 25rem;
+    width: 25%;
+    margin: 1rem;
+    border-radius: 5%;
+    padding: .5rem 2rem;
+    background-color: #1d1d1d75;
+}
+
+ul li {
+    list-style: none;
+}
+
+li span {
+    color: #F8BA17;
+}
+
+.img {
+    min-height: 45%;
+    max-height: 48%;
+}
+
+.name-pokemon, .type {
+    margin: .4rem 0;
+}
+
+.info, .stadistics {
+    height: 15%;
+    display: flex;
+    justify-content: space-around;
+}
