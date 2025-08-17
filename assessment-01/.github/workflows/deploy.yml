@@ -2,7 +2,8 @@ name: Deploy to S3 + CloudFront
 
 on:
   push:
-    branches: assessment-01
+    branches:
+      - assessment-01     # o assessment-1 si cambias el nombre
   workflow_dispatch:
 
 jobs:
