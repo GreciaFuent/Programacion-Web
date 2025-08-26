@@ -1,0 +1,41 @@
+.task {
+    display: flex;
+    height: 8rem;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    border-top: 3px solid #E7E0E8;
+    border-bottom: 3px solid #E7E0E8;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 4rem;
+    min-width: 4rem;
+    margin-right: 2rem;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 25px;
+    background-color: rgb(243, 35, 35);
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    min-width: 90%;
+    max-width: 91%;
+    min-height: 100%;
+    background-color: transparent;
+}
+
+.info .title-task {
+    font-weight: 300;
+    margin-bottom: .5rem;
+}
+
+.info .date-time {
+    font-weight: 400;
+    margin-bottom: .5rem;
+}
