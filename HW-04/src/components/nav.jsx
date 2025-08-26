@@ -1,15 +1,12 @@
-import "../styles/nav.css"
+import "../styles/nav.css";
 
-function Nav() {
-
+export default function Nav({ onToggleForm }) {
   return (
     <>
-      <div className='nav'>
+      <div className="nav">
         <h2 className="logo">Tasks Manager</h2>
-        <button>+</button>
+        <button type="button" onClick={onToggleForm}>+</button>
       </div>
     </>
-  )
+  );
 }
-
-export default Nav

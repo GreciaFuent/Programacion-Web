@@ -2,8 +2,8 @@
     display: flex;
     height: 8rem;
     align-items: center;
-    padding: 1rem 0;
-    margin-bottom: 2rem;
+    padding: 1rem 3rem;
+    margin-bottom: 1rem;
     border-top: 3px solid #E7E0E8;
     border-bottom: 3px solid #E7E0E8;
 }
