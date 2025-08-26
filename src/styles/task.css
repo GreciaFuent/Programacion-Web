@@ -50,3 +50,16 @@
     font-weight: 400;
     margin-bottom: .5rem;
 }
+
+.delete {
+    border: none;
+    cursor: pointer;
+}
+
+.delete svg {
+    font-size: 25px;
+}
+
+.delete svg:hover {
+    font-size: 30px;
+}

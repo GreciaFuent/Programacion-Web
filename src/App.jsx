@@ -9,16 +9,19 @@ const LS_KEY = "tasks_app_state_v1";
 export default function App() {
   const [showForm, setShowForm] = useState(false);
 
-  // Estado único: tasks + nextId (más fácil de persistir)
   const [state, setState] = useState(() => {
-    
     try {
       const raw = localStorage.getItem(LS_KEY);
       if (!raw) return { tasks: [], nextId: 1 };
 
       const parsed = JSON.parse(raw);
-      const tasks = Array.isArray(parsed?.tasks) ? parsed.tasks : [];
-      // Si no hay nextId, lo reconstruimos a partir del mayor id
+      const tasksRaw = Array.isArray(parsed?.tasks) ? parsed.tasks : [];
+
+      const tasks = tasksRaw.map(t => ({
+        ...t,
+        status: typeof t.status === "boolean" ? t.status : false,
+      }));
+
       const maxId = tasks.length ? Math.max(...tasks.map(t => Number(t.id) || 0)) : 0;
       const nextId =
         Number.isInteger(parsed?.nextId) && parsed.nextId > 0
@@ -44,7 +47,10 @@ export default function App() {
 
   const handleAddTask = ({ title, date, description }) => {
     setState(prev => ({
-      tasks: [{ id: prev.nextId, title, date, description }, ...prev.tasks],
+      tasks: [
+        { id: prev.nextId, title, date, description, status: false }, 
+        ...prev.tasks
+      ],
       nextId: prev.nextId + 1,
     }));
     setShowForm(false);
@@ -54,6 +60,15 @@ export default function App() {
     setState(prev => ({
       ...prev,
       tasks: prev.tasks.filter(t => t.id !== id),
+    }));
+  };
+
+  const handleToggleStatus = (id) => {
+    setState(prev => ({
+      ...prev,
+      tasks: prev.tasks.map(t =>
+        t.id === id ? { ...t, status: !t.status } : t
+      ),
     }));
   };
 
@@ -69,10 +84,13 @@ export default function App() {
             tasks.map(t => (
               <Task
                 key={t.id}
+                id={t.id}
                 title={t.title}
                 date={t.date}
                 description={t.description}
-                onDelete={() => handleDeleteTask(t.id)} 
+                status={t.status}                 
+                onToggle={() => handleToggleStatus(t.id)} 
+                onDelete={() => handleDeleteTask(t.id)}
               />
             ))
           )}
