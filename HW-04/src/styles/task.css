@@ -18,7 +18,18 @@
     text-align: center;
     border-radius: 50%;
     font-size: 25px;
-    background-color: rgb(243, 35, 35);
+    border: none;
+    cursor: pointer;
+}
+
+.status.pending {
+  background-color: #ffe0e0;
+  border: 2px solid #ff6b6b;
+}
+
+.status.completed {
+  background-color: #e0ffe5; 
+  border: 2px solid #38c172;
 }
 
 .info {
