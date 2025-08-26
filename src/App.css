@@ -19,3 +19,27 @@
   min-height: 75vh;
   background-color: transparent;
 }
+
+.filters {
+  min-width: 85%;
+  max-width: 86%;
+  display: flex;
+  gap: .5rem;
+  margin-bottom: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filters button {
+  border: 1px solid #e0e3eb;
+  background: #fff;
+  padding: .4rem .75rem;
+  border-radius: .5rem;
+  cursor: pointer;
+}
+
+.filters button.active {
+  border-color: #4f46e5;
+  outline: 2px solid rgba(79,70,229,.15);
+  font-weight: 600;
+}
