@@ -1,5 +1,5 @@
 from django.db import models
-from directors.models import Director  # Importamos el modelo Director
+from directors.models import Director  
 
 class Movie(models.Model):
     title = models.CharField(max_length=80)
