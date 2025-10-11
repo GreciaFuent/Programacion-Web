@@ -1,0 +1,69 @@
+# --- Python / Bytecode ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Entornos virtuales ---
+.venv/
+venv/
+ENV/
+env/
+
+# --- Django / configuración local ---
+*.log
+*.pot
+*.mo
+local_settings.py
+settings_local.py
+
+# Base de datos SQLite (no la subas al repo)
+db.sqlite3
+
+# Archivos estáticos generados
+staticfiles/
+static/
+media/
+
+# Archivos de compilación / distribución
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Cobertura y pruebas
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+.cache/
+
+# Herramientas de análisis
+.mypy_cache/
+.pyright/
+.pyre/
+.ruff_cache/
+
+# IDE / SO
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Docker / Compose
+# (si usas archivos de entorno para variables)
+.env
+.env.*
+docker-compose.override.yml
+
+# pip-tools (si lo usas)
+*.pyproject.lock
+pip-wheel-metadata/
+
+# Poetry (si lo usas)
+.poetry/
+poetry.lock
+
+# Pyenv
+.python-version
