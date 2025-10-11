@@ -1,23 +1,34 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function RevealTab() {
-  const [key, setKey] = useState('');
+  const [key, setKey] = useState("");
   const [secret, setSecret] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
   const handleReveal = async () => {
+    if (!key.trim()) {
+      setError("Please enter a key.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    setSecret(null);
+
     try {
-      const response = await fetch(`http://localhost:8000/api/reveal/${key}`);
-      if (response.ok) {
-        const data = await response.json();
+      const res = await fetch(`${API}/reveal/${key}/`);
+      if (res.ok) {
+        const data = await res.json();
         setSecret(data.secret);
-        setError(null);
       } else {
-        setSecret(null);
-        setError('This key does not exist or has already been used.');
+        setError("This key does not exist or has already been used.");
       }
-    } catch (error) {
-      setError('Error trying to reveal the secret.');
+    } catch {
+      setError("⚠️ Error trying to reveal the secret.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,9 +40,11 @@ export default function RevealTab() {
         value={key}
         onChange={(e) => setKey(e.target.value)}
       />
-      <button onClick={handleReveal}>Show</button>
+      <button onClick={handleReveal} disabled={loading}>
+        {loading ? "Loading..." : "Show secret"}
+      </button>
 
-      {secret && <p className="result"><strong>🔓 Secret:</strong> {secret}</p>}
+      {secret && <p className="result">🔓 <strong>Secret:</strong> {secret}</p>}
       {error && <p className="error">{error}</p>}
     </div>
   );
